@@ -1,6 +1,16 @@
 from django.shortcuts import render
 
 # Create your views here.
-def homeview(request):
+from django.views.generic import View
+from .models import *
 
-    return render(request,'index.html')
+class BaseView(View):
+    view = {}
+
+class HomeView(BaseView):
+    def get(self,request):
+        self.view['items'] = Item.objects.all()
+        self.view['sliders']=Slider.objects.all()
+        self.view['category']=Category.objects.all()
+        self.view['subcategory'] = SubCategory.objects.all()
+        return render(self.request,'index.html',self.view)
