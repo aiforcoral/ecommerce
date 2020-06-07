@@ -16,7 +16,6 @@
 		</div>	
     </div>
 </div>
-
     <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.1.min.js"><\/script>')</script>
     <script src="js/jquery.vide.min.js"></script>
 
@@ -440,51 +439,58 @@
 <!--content-->
 <div class="content-mid">
 	<div class="container">
-		
+		{% for one in add_one %}
 		<div class="col-md-4 m-w3ls">
 			<div class="col-md1 ">
 				<a href="kitchen.html">
-					<img src="images/co1.jpg" class="img-responsive img" alt="">
+					<img src="{{one.image}}" class="img-responsive img" alt="">
 					<div class="big-sa">
 						<h6>New Collections</h6>
 						<h3>Season<span>ing </span></h3>
-						<p>There are many variations of passages of Lorem Ipsum available, but the majority </p>
+						<p>{{one.description}} </p>
 					</div>
 				</a>
 			</div>
 		</div>
+		{% endfor %}
+		{% for second in add_second %}
 		<div class="col-md-4 m-w3ls1">
 			<div class="col-md ">
 				<a href="hold.html">
-					<img src="images/co.jpg" class="img-responsive img" alt="">
+					<img src="{{second.image}}" class="img-responsive img" alt="">
 					<div class="big-sale">
 						<div class="big-sale1">
 							<h3>Big <span>Sale</span></h3>
-							<p>It is a long established fact that a reader </p>
+							<p>{{second.description}} </p>
 						</div>
 					</div>
 				</a>
 			</div>
 		</div>
+		{% endfor %}
 		<div class="col-md-4 m-w3ls">
+			{% for third in add_third %}
 			<div class="col-md2 ">
 				<a href="kitchen.html">
-					<img src="images/co2.jpg" class="img-responsive img1" alt="">
+					<img src="{{third.image}}" class="img-responsive img1" alt="">
 					<div class="big-sale2">
 						<h3>Cooking <span>Oil</span></h3>
-						<p>It is a long established fact that a reader </p>		
+						<p>{{third.description}} </p>
 					</div>
 				</a>
 			</div>
+			{% endfor %}
+			{% for forth in add_forth %}
 			<div class="col-md3 ">
 				<a href="hold.html">
-					<img src="images/co3.jpg" class="img-responsive img1" alt="">
+					<img src="{{forth.image}}" class="img-responsive img1" alt="">
 					<div class="big-sale3">
 						<h3>Vegeta<span>bles</span></h3>
-						<p>It is a long established fact that a reader </p>
+						<p>{{forth.description}} </p>
 					</div>
 				</a>
 			</div>
+			{% endfor %}
 		</div>
 		<div class="clearfix"></div>
 	</div>
@@ -521,7 +527,7 @@
 				</div>
 			</div>
 				<div class=" con-w3l">
-					{% for item in items %}
+					{% for item in specil_items %}
 					<div class="col-md-3 pro-1">
 								<div class="col-m">
 								<a href="#" data-toggle="modal" data-target="#myModal17" class="offer-img">
@@ -532,7 +538,11 @@
 											<h6><a href="single.html">{{item.title}}</h6>
 										</div>
 										<div class="mid-2">
+											{% if  item.discounted_price %}
 											<p ><label>Rs.{{item.price}}</label><em class="item_price">Rs.{{item.discounted_price}}</em></p>
+											{% else %}
+											<p ><em class="item_price">Rs.{{item.price}}</em></p>
+											{% endif %}
 											  <div class="block">
 												<div class="starbox small ghosting"> </div>
 											</div>
