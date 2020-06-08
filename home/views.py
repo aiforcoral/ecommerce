@@ -9,7 +9,7 @@ class BaseView(View):
 
 class HomeView(BaseView):
     def get(self,request):
-        # self.view['items'] = Item.objects.all()
+        self.view['items'] = Item.objects.all()
         self.view['specil_items'] = Item.objects.filter(labels = 'special').reverse()[0:12]
         self.view['sliders']=Slider.objects.all()
         self.view['category']=Category.objects.all()
@@ -18,4 +18,5 @@ class HomeView(BaseView):
         self.view['add_second'] = Ad.objects.filter(rank=2)
         self.view['add_third'] = Ad.objects.filter(rank=3)
         self.view['add_forth'] = Ad.objects.filter(rank=4)
+        self.view['special_subcat'] = SubCategory.objects.filter(labels = 'special')
         return render(self.request,'index.html',self.view)
