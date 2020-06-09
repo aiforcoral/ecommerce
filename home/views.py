@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.views.generic import View
+from django.views.generic import View, DetailView
 from .models import *
 
 class BaseView(View):
@@ -20,3 +20,13 @@ class HomeView(BaseView):
         self.view['add_forth'] = Ad.objects.filter(rank=4)
         self.view['special_subcat'] = SubCategory.objects.filter(labels = 'special')
         return render(self.request,'index.html',self.view)
+
+class ItemDetailView(DetailView):
+    model=Item
+    template_name = 'single.html'
+
+class Subcategory(BaseView):
+    def get(self,request,id):
+        self.view['subcat_items'] = Item.objects.filter(subcategory_id = id)
+
+        return render(self.request, 'kitchen.html', self.view)

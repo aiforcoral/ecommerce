@@ -120,7 +120,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 											<ul class="multi-column-dropdown">
 												{% for subcat in subcategory %}
 												{% if cat.id == subcat.category_id %}
-												<li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>{{subcat.title}}</a></li>
+												<li><a href="{{subcat.get_subcat_url}}"><i class="fa fa-angle-right" aria-hidden="true"></i>{{subcat.title}}</a></li>
 												{% endif %}
 												{% endfor %}
 											</ul>
