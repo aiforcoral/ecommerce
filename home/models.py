@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 
@@ -47,6 +48,8 @@ class Item(models.Model):
         return self.title
     def get_item_url(self):
         return reverse("home:product",kwargs={'slug':self.slug})
+    def add_to_cat(self):
+        return reverse("home:cart", kwargs={'slug': self.slug})
 
 class Slider(models.Model):
     title = models.CharField(max_length=300)
@@ -75,3 +78,12 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.email
+
+class Cart(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+    slug = models.CharField(max_length=300)
+    quantity = models.IntegerField(default=1)
+    checkout = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user.username

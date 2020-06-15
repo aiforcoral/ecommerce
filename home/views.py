@@ -73,3 +73,36 @@ def signup(request):
             return render(request, 'register.html')
 
     return render(request,'register.html')
+
+def cart(request,slug):
+    if Cart.objects.filter(slug =slug).exists():
+        quantity = Cart.objects.get(slug =slug).quantity
+        quantity = quantity+1
+        Cart.objects.filter(slug=slug).update(quantity=quantity)
+    else:
+        username = request.user
+        data = Cart.objects.create(
+            user = username,
+            slug = slug
+        )
+        data.save()
+    return redirect('home:mycart')
+
+def deletecart(request,slug):
+    if Cart.objects.filter(slug =slug).exists():
+        Cart.objects.filter(slug=slug).delete()
+    return redirect('home:mycart')
+
+def removecart(request,slug):
+    if Cart.objects.filter(slug =slug).exists():
+        quantity = Cart.objects.get(slug =slug).quantity
+        quantity = quantity-1
+        Cart.objects.filter(slug=slug).update(quantity=quantity)
+    return redirect('home:mycart')
+
+
+class CartView(BaseView):
+   def get(self,request):
+       self.view['slugs'] = Cart.objects.filter(checkout = False,user=request.user)
+       # self.view['cart_items'] = Item.objects.all()
+       return render(request, 'cart.html',self.view)
