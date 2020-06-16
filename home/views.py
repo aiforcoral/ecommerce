@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render,redirect
 
@@ -74,6 +75,7 @@ def signup(request):
 
     return render(request,'register.html')
 
+@login_required
 def cart(request,slug):
     if Cart.objects.filter(slug =slug).exists():
         quantity = Cart.objects.get(slug =slug).quantity
@@ -106,3 +108,4 @@ class CartView(BaseView):
        self.view['slugs'] = Cart.objects.filter(checkout = False,user=request.user)
        # self.view['cart_items'] = Item.objects.all()
        return render(request, 'cart.html',self.view)
+

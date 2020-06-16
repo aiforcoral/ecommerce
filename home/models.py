@@ -40,7 +40,7 @@ class Item(models.Model):
     description = models.TextField(blank=True)
     stock = models.CharField(max_length=50,choices=STOCK)
     labels = models.CharField(max_length=300, choices=LABELS,blank=True)
-    image = models.TextField()
+    image = models.ImageField(upload_to='media')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
     subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, default=1)
 
@@ -87,3 +87,10 @@ class Cart(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    def remove_one_item(self):
+        return reverse("home:remove-one-item", kwargs={'slug': self.slug})
+
+    def remove_all_item(self):
+        return reverse("home:remove-all-item", kwargs={'slug': self.slug})
+
