@@ -1,4 +1,4 @@
-from .views import HomeView,ItemDetailView,Subcategory,SearchView,signup,cart,CartView,removecart,deletecart
+from .views import HomeView,ItemDetailView,Subcategory,SearchView,signup,cart,ContactView,CartView,removecart,deletecart,contact_action
 from django.urls import path
 app_name = 'home'
 
@@ -13,4 +13,6 @@ urlpatterns = [
     path('search', SearchView.as_view(), name='search'),
     path('signup',signup, name='signup'),
     path('mycart',CartView.as_view(), name='mycart'),
+    path('contact',ContactView.as_view(), name='contact'),
+    path('contact_action', contact_action, name='contact_action'),
 ]

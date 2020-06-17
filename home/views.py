@@ -1,8 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.mail import EmailMessage
 from django.shortcuts import render,redirect
-
+import random
 # Create your views here.
 from django.views.generic import View, DetailView
 from .models import *
@@ -109,3 +110,30 @@ class CartView(BaseView):
        # self.view['cart_items'] = Item.objects.all()
        return render(request, 'cart.html',self.view)
 
+class ContactView(BaseView):
+    def get(self, request):
+
+        return render(request, 'contact.html', self.view)
+
+def contact_action(request):
+    if request.method =='POST':
+        name = request.POST['Name']
+        email = request.POST['Email']
+        message = request.POST['Message']
+        contact_id =random.randint(0,999999)
+        data = Contact.objects.create(
+            name = name,
+            email = email,
+            message =message,
+            contact_id = contact_id
+        )
+        data.save()
+        send_email = EmailMessage(
+            'Contact from your store',
+            f'Hello admin {name} is trying to contct you.His mail is {email}.His message is {message}',
+            email,
+            ['']
+        )
+        send_email.send()
+        message.success(request,'Email has sent !')
+        return redirect('home:contact')
