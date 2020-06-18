@@ -6,6 +6,11 @@ from django.shortcuts import render,redirect
 import random
 # Create your views here.
 from django.views.generic import View, DetailView
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import viewsets, generics
+from rest_framework.filters import OrderingFilter, SearchFilter
+
+from home.serializers import ItemSerializers, CategorySerializers, SubCategorySerializers
 from .models import *
 
 class BaseView(View):
@@ -137,3 +142,26 @@ def contact_action(request):
         send_email.send()
         message.success(request,'Email has sent !')
         return redirect('home:contact')
+
+#API PART
+class ItemViewSet(viewsets.ModelViewSet):
+    queryset = Item.objects.all()
+    serializer_class = ItemSerializers
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializers
+
+class SubCategoryViewSet(viewsets.ModelViewSet):
+    queryset = SubCategory.objects.all()
+    serializer_class = SubCategorySerializers
+
+
+class ItemFilterListView(generics.ListAPIView):
+    queryset = Item.objects.all()
+    serializer_class = ItemSerializers
+
+    filter_backends = (DjangoFilterBackend,OrderingFilter,SearchFilter)
+    filter_fields = ['id','title','price','labels','category','subcategory']
+    ordering_fields = ['price','title','id']
+    search_fields = ['title','description','short_description']
