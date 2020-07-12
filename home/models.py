@@ -82,6 +82,7 @@ class Contact(models.Model):
 class Cart(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     slug = models.CharField(max_length=300)
+    # items = models.ForeignKey(Item, on_delete=models.CASCADE, default =1)
     quantity = models.IntegerField(default=1)
     checkout = models.BooleanField(default=False)
 

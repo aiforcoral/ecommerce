@@ -91,7 +91,8 @@ def cart(request,slug):
         username = request.user
         data = Cart.objects.create(
             user = username,
-            slug = slug
+            slug = slug,
+            items =Item.objects.filter(slug =slug)
         )
         data.save()
     return redirect('home:mycart')
